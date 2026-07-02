@@ -99,8 +99,20 @@ __global__ void add_bias_row_kernel(float* Y, const float* bias, int M, int N) {
     Y[i*N + j] += bias[j];
 }
 
-# Step 6 - reduce_rows_to_bias_grad_kernel (not yet solved)
-# TODO: implement
+# Step 6 - reduce_rows_to_bias_grad_kernel
+__global__ void reduce_rows_to_bias_grad_kernel(const float* dY, float* dbias, int M, int N) {
+    // TODO: for each column j in [0, N), compute dbias[j] = sum over i in [0, M) of dY[i*N + j].
+    int i = blockDim.y * blockIdx.y + threadIdx.y;
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+
+    if (i >= M || j >= N) return;
+
+    float sum = 0.0f;
+    for (int i=0; i<M; i++){
+        sum += dY[i*N + j];
+    }
+    dbias[j] = sum;
+}
 
 # Step 7 - elementwise_add_kernel (not yet solved)
 # TODO: implement
