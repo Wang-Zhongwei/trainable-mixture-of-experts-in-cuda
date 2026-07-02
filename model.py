@@ -114,8 +114,13 @@ __global__ void reduce_rows_to_bias_grad_kernel(const float* dY, float* dbias, i
     dbias[j] = sum;
 }
 
-# Step 7 - elementwise_add_kernel (not yet solved)
-# TODO: implement
+# Step 7 - elementwise_add_kernel
+__global__ void elementwise_add_kernel(const float* a, const float* b, float* out, int n) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int stride = blockDim.x * gridDim.x;
+    for (; i < n; i += stride)
+        out[i] = a[i] + b[i];
+}
 
 # Step 8 - relu_forward_kernel (not yet solved)
 # TODO: implement
