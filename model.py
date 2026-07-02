@@ -57,8 +57,21 @@ __global__ void matmul_tiled_kernel(const float* A, const float* B, float* C, in
     }
 }
 
-# Step 3 - matmul_at_b_kernel (not yet solved)
-# TODO: implement
+# Step 3 - matmul_at_b_kernel
+__global__ void matmul_at_b_kernel(const float* A, const float* B, float* C, int M, int N, int K) {
+    // TODO: compute C = A^T * B where A is KxM, B is KxN, C is MxN (all row-major)
+    // A: (K, M) B: (K, N)
+    int r = blockIdx.y * blockDim.y + threadIdx.y;
+    int c = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (r < M && c < N) {
+        float sum = 0.0f;
+        for (int k = 0; k < K; k++) {
+            sum += A[k * M + r] * B[k * N + c];
+        }
+        C[r*N + c] = sum;
+    }
+}
 
 # Step 4 - matmul_a_bt_kernel (not yet solved)
 # TODO: implement
