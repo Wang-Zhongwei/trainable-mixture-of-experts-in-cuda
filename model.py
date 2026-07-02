@@ -88,8 +88,16 @@ __global__ void matmul_a_bt_kernel(const float* A, const float* B, float* C, int
     }
 }
 
-# Step 5 - add_bias_row_kernel (not yet solved)
-# TODO: implement
+# Step 5 - add_bias_row_kernel
+__global__ void add_bias_row_kernel(float* Y, const float* bias, int M, int N) {
+    // TODO: add bias[j] to Y[i, j] for every (i, j)
+    int i = blockDim.y * blockIdx.y + threadIdx.y;
+    int j = blockDim.x * blockIdx.x + threadIdx.x;
+
+    if (i >= M || j >= N) return;
+    
+    Y[i*N + j] += bias[j];
+}
 
 # Step 6 - reduce_rows_to_bias_grad_kernel (not yet solved)
 # TODO: implement
