@@ -122,8 +122,13 @@ __global__ void elementwise_add_kernel(const float* a, const float* b, float* ou
         out[i] = a[i] + b[i];
 }
 
-# Step 8 - relu_forward_kernel (not yet solved)
-# TODO: implement
+# Step 8 - relu_forward_kernel
+__global__ void relu_forward_kernel(const float* x, float* y, int n) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n){
+        y[i] = x[i] > 0 ? x[i] : 0;
+    }
+}
 
 # Step 9 - relu_backward_kernel (not yet solved)
 # TODO: implement
