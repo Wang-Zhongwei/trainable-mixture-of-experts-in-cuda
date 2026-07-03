@@ -130,8 +130,14 @@ __global__ void relu_forward_kernel(const float* x, float* y, int n) {
     }
 }
 
-# Step 9 - relu_backward_kernel (not yet solved)
-# TODO: implement
+# Step 9 - relu_backward_kernel
+__global__ void relu_backward_kernel(const float* x, const float* dy, float* dx, int n) {
+    // TODO: implement ReLU backward: dx[i] = dy[i] if x[i] > 0 else 0
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i<n){
+        dx[i] = x[i] > 0 ? dy[i] : 0;
+    }
+}
 
 # Step 10 - gelu_forward_kernel (not yet solved)
 # TODO: implement
